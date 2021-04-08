@@ -1,12 +1,11 @@
-package com.udacity.jdnd.course3.critter.pet;
+package com.udacity.jdnd.course3.critter.entities;
 
-import com.udacity.jdnd.course3.critter.user.Customer;
+import com.udacity.jdnd.course3.critter.pet.PetType;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 public class Pet {
     @Id
     @GeneratedValue
@@ -16,7 +15,7 @@ public class Pet {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Customer.class)
-    private Long ownerId;
+    private Long customerId;
 
     private LocalDate birthDate;
     private String notes;
