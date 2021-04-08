@@ -13,34 +13,23 @@ public class ScheduleService {
     @Autowired
     private SchedulesRepository schedulesRepository;
 
-    @Autowired
-    private PetsRepository petsRepository;
-
-    @Autowired
-    private EmployeesRepository employeesRepository;
-
-    @Autowired
-    private CustomersRepository customersRepository;
-
     public List<Schedule> getAllSchedules() {
         return schedulesRepository.findAll();
     }
 
-    public List<Schedule> getAllSchedulesForPet(Long petId) {
+    public List<Schedule> getAllSchedulesByPet(Long petId) {
         return schedulesRepository.getAllSchedulesByPetIds(petId);
     }
 
-    public List<Schedule> getAllSchedulesForEmployee(Long employeeIds) {
+    public List<Schedule> getAllSchedulesByEmployee(Long employeeIds) {
         return schedulesRepository.getAllSchedulesByEmployeeIds(employeeIds);
     }
 
-    public List<Schedule> getAllSchedulesForCustomer(Long customerId) {
+    public List<Schedule> getAllSchedulesByCustomer(Long customerId) {
         return schedulesRepository.getAllSchedulesByCustomerId(customerId);
     }
 
-    public Schedule saveSchedule(Schedule schedule, List<Long> employeeIds, List<Long> petIds) {
-        schedule.setEmployees(employeeIds);
-        schedule.setPets(petIds);
+    public Schedule saveSchedule(Schedule schedule) {
         return schedulesRepository.save(schedule);
     }
 
