@@ -41,7 +41,7 @@ public class PetController {
         newPet.setOwner(owner);
         newPet.setBirthDate(petDTO.getBirthDate());
         newPet.setNotes(petDTO.getNotes());
-        return getPetDTO(petService.savePet(newPet));
+        return getPetDTO(petService.savePet(newPet, owner));
     }
 
     @GetMapping("/{petId}")
@@ -59,7 +59,7 @@ public class PetController {
 
     @GetMapping("/owner/{ownerId}")
     public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        List<Pet> pets = petService.getAllPetsByCustomer(ownerId);
+        List<Pet> pets = petService.getAllPetsByOwner(ownerId);
         List<PetDTO> petDTOs = pets.stream().map(this::getPetDTO).collect(Collectors.toList());
         return petDTOs;
     }

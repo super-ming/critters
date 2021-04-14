@@ -21,7 +21,7 @@ public class PetService {
         return petsRepository.findAll();
     }
 
-    public List<Pet> getAllPetsByCustomer(Long ownerId) {
+    public List<Pet> getAllPetsByOwner(Long ownerId) {
         Customer owner = customersRepository.getOne(ownerId);
         return owner.getPets();
     }
@@ -30,7 +30,9 @@ public class PetService {
         return petsRepository.getOne(id);
     }
 
-    public Pet savePet(Pet pet) {
-        return petsRepository.save(pet);
+    public Pet savePet(Pet pet, Customer owner) {
+        owner.addPet(pet);
+        customersRepository.saveAndFlush(owner);
+        return petsRepository.saveAndFlush(pet);
     }
 }

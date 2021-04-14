@@ -20,13 +20,13 @@ public class EmployeeService {
     public Employee getEmployeeById(Long id) { return employeesRepository.getOne(id); }
 
     public Employee saveEmployee(Employee employee) {
-        return employeesRepository.save(employee);
+        return employeesRepository.saveAndFlush(employee);
     }
 
-    public void setEmployeeAvailability(Set<DayOfWeek> daysAvailable, Long employeeId) {
+    public Employee setEmployeeAvailability(Set<DayOfWeek> daysAvailable, Long employeeId) {
         Employee employee = employeesRepository.getOne(employeeId);
         employee.setDaysAvailable(daysAvailable);
-        employeesRepository.save(employee);
+        return employeesRepository.saveAndFlush(employee);
     }
 
     public List<Employee> getEmployeesByAvailabilityAndSkills(LocalDate date, Set<EmployeeSkill> skills) {
