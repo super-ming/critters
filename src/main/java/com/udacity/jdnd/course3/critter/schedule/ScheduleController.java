@@ -1,7 +1,9 @@
 package com.udacity.jdnd.course3.critter.schedule;
 
+import com.udacity.jdnd.course3.critter.entities.Employee;
+import com.udacity.jdnd.course3.critter.entities.Pet;
 import com.udacity.jdnd.course3.critter.entities.Schedule;
-import com.udacity.jdnd.course3.critter.repositories.SchedulesRepository;
+import com.udacity.jdnd.course3.critter.services.EmployeeService;
 import com.udacity.jdnd.course3.critter.services.ScheduleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,11 +20,16 @@ public class ScheduleController {
     @Autowired
     private ScheduleService scheduleService;
 
+    @Autowired
+    private EmployeeService employeeService;
+
     private ScheduleDTO getScheduleDTO(Schedule schedule) {
         ScheduleDTO scheduleDTO = new ScheduleDTO();
         scheduleDTO.setId(schedule.getId());
-        scheduleDTO.setEmployeeIds(schedule.getEmployeeIds());
-        scheduleDTO.setPetIds(schedule.getPetIds());
+        List<Long> employeeIds = schedule.getEmployees().stream().map(Employee::getId).collect(Collectors.toList());
+        scheduleDTO.setEmployeeIds(employeeIds);
+        List<Long> petIds = schedule.getPets().stream().map(Pet::getId).collect(Collectors.toList());
+        scheduleDTO.setPetIds(petIds);
         scheduleDTO.setDate(schedule.getDate());
         scheduleDTO.setActivities(schedule.getActivities());
         return scheduleDTO;
@@ -33,9 +40,9 @@ public class ScheduleController {
         Schedule newSchedule = new Schedule();
         newSchedule.setDate(scheduleDTO.getDate());
         newSchedule.setActivities(scheduleDTO.getActivities());
-        newSchedule.setEmployeeIds(scheduleDTO.getEmployeeIds());
-        newSchedule.setPetIds(scheduleDTO.getPetIds());
-        return getScheduleDTO(scheduleService.saveSchedule(newSchedule));
+        List<Long> employeeIds = scheduleDTO.getEmployeeIds();
+        List<Long> petIds = scheduleDTO.getPetIds();
+        return getScheduleDTO(scheduleService.saveSchedule(newSchedule, employeeIds, petIds));
     }
 
     @GetMapping
