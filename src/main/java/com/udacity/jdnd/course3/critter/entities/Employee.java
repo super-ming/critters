@@ -2,17 +2,16 @@ package com.udacity.jdnd.course3.critter.entities;
 
 import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.util.Set;
 
 @Entity
-public class Employee {
+@Table
+public class Employee implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 

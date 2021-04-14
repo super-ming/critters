@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Table
 public class Pet implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private PetType type;
