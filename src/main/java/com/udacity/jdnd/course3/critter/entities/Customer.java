@@ -1,22 +1,25 @@
 package com.udacity.jdnd.course3.critter.entities;
 
-import com.udacity.jdnd.course3.critter.entities.Pet;
-
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-public class Customer {
+@Table
+public class Customer implements Serializable {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
     private String phoneNumber;
+
+    @Column(nullable = true)
     private String notes;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Pet.class)
-    private List<Long> petIds;
+    @Column(nullable = true)
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = Pet.class)
+    private List<Pet> pets;
 
     public Long getId() {
         return id;
@@ -50,11 +53,15 @@ public class Customer {
         this.notes = notes;
     }
 
-    public List<Long> getPetIds() {
-        return petIds;
+    public List<Pet> getPets() {
+        return pets;
     }
 
-    public void setPetIds(List<Long> petIds) {
-        this.petIds = petIds;
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
+
+    public void addPet(Pet pet){
+        pets.add(pet);
     }
 }

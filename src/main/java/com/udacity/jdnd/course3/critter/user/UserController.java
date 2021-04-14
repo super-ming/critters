@@ -2,8 +2,12 @@ package com.udacity.jdnd.course3.critter.user;
 
 import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.entities.Employee;
+import com.udacity.jdnd.course3.critter.entities.Pet;
+import com.udacity.jdnd.course3.critter.repositories.PetsRepository;
 import com.udacity.jdnd.course3.critter.services.CustomerService;
 import com.udacity.jdnd.course3.critter.services.EmployeeService;
+import com.udacity.jdnd.course3.critter.services.PetService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -20,8 +24,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
     private CustomerService customerService;
+    @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private PetService petService;
+    @Autowired
+    private PetsRepository petsRepository;
+
 
     private CustomerDTO getCustomerDTO(Customer customer) {
         CustomerDTO customerDTO = new CustomerDTO();
@@ -29,7 +40,8 @@ public class UserController {
         customerDTO.setName(customer.getName());
         customerDTO.setPhoneNumber(customer.getPhoneNumber());
         customerDTO.setNotes(customer.getNotes());
-        customerDTO.setPetIds(customer.getPetIds());
+        List<Long> petIds = customer.getPets().stream().map(Pet::getId).collect(Collectors.toList());
+        customerDTO.setPetIds(petIds);
         return customerDTO;
     }
 
@@ -48,8 +60,9 @@ public class UserController {
         newCustomer.setName(customerDTO.getName());
         newCustomer.setPhoneNumber(customerDTO.getPhoneNumber());
         newCustomer.setNotes(customerDTO.getNotes());
-        newCustomer.setPetIds(customerDTO.getPetIds());
-        return getCustomerDTO(customerService.saveCustomer(newCustomer));
+        List<Long> petIds = customerDTO.getPetIds();
+        Customer savedCustomer = customerService.saveCustomer(newCustomer, petIds);
+        return getCustomerDTO(savedCustomer);
     }
 
     @GetMapping("/customer")
