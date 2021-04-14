@@ -1,7 +1,10 @@
 package com.udacity.jdnd.course3.critter.pet;
 
+import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.entities.Pet;
+import com.udacity.jdnd.course3.critter.services.CustomerService;
 import com.udacity.jdnd.course3.critter.services.PetService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,13 +16,17 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/pet")
 public class PetController {
+    @Autowired
     private PetService petService;
+
+    @Autowired
+    private CustomerService customerService;
 
     private PetDTO getPetDTO(Pet pet) {
         PetDTO petDTO = new PetDTO();
         petDTO.setId(pet.getId());
         petDTO.setName(pet.getName());
-        petDTO.setOwnerId(pet.getOwnerId());
+        petDTO.setOwnerId(pet.getOwner().getId());
         petDTO.setBirthDate(pet.getBirthDate());
         petDTO.setNotes(pet.getNotes());
         return petDTO;
@@ -30,7 +37,8 @@ public class PetController {
         Pet newPet = new Pet();
         newPet.setId(petDTO.getId());
         newPet.setName(petDTO.getName());
-        newPet.setOwnerId(petDTO.getOwnerId());
+        Customer owner = customerService.getOne(petDTO.getOwnerId());
+        newPet.setOwner(owner);
         newPet.setBirthDate(petDTO.getBirthDate());
         newPet.setNotes(petDTO.getNotes());
         return getPetDTO(petService.savePet(newPet));
