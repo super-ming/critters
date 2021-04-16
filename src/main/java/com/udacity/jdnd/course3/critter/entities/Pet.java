@@ -16,7 +16,7 @@ public class Pet implements Serializable {
     private PetType type;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Customer.class)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Customer.class)
     private Customer owner;
 
     private LocalDate birthDate;

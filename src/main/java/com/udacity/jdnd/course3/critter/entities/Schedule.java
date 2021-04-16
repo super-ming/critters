@@ -16,10 +16,10 @@ public class Schedule implements Serializable {
 
     private LocalDate date;
 
-    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Employee.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Employee.class)
     private List<Employee> employees;
 
-    @ManyToMany(cascade = CascadeType.ALL, targetEntity = Pet.class)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Pet.class)
     private List<Pet> pets;
 
     @ElementCollection

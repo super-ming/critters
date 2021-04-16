@@ -17,10 +17,6 @@ public class PetService {
     @Autowired
     private CustomersRepository customersRepository;
 
-    public List<Pet> getAllPets() {
-        return petsRepository.findAll();
-    }
-
     public List<Pet> getAllPetsByOwner(Long ownerId) {
         Customer owner = customersRepository.getOne(ownerId);
         return owner.getPets();

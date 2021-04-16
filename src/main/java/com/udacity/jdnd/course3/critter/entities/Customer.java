@@ -14,11 +14,9 @@ public class Customer implements Serializable {
     private String name;
     private String phoneNumber;
 
-    @Column(nullable = true)
     private String notes;
 
-    @Column(nullable = true)
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = Pet.class)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Pet.class)
     private List<Pet> pets;
 
     public Long getId() {

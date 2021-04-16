@@ -39,11 +39,4 @@ public class CustomerService {
         customer.setPets(pets);
         return customersRepository.saveAndFlush(customer);
     }
-
-    public void savePet(Long id, Pet pet){
-        Customer owner = customersRepository.findById(id).get();
-        pet.setOwner(owner);
-        owner.addPet(pet);
-        customersRepository.saveAndFlush(owner);
-    }
 }
