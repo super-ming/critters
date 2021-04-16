@@ -20,12 +20,15 @@ public class CustomerService {
     @Autowired
     private PetsRepository petsRepository;
 
+    @Transactional
     public List<Customer> getAllCustomers() {
         return customersRepository.findAll();
     }
 
+    @Transactional
     public Customer getOne(Long id) { return customersRepository.getOne(id); }
 
+    @Transactional
     public Customer getCustomerByPetId(Long petId) {
         return customersRepository.getOne(petsRepository.findById(petId).get().getOwner().getId());
     }
