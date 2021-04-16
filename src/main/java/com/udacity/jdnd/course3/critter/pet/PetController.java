@@ -36,8 +36,10 @@ public class PetController {
     public PetDTO savePet(@RequestBody PetDTO petDTO) {
         Pet newPet = new Pet();
         newPet.setId(petDTO.getId());
+        System.out.println("petId" + newPet.getId());
         newPet.setName(petDTO.getName());
         Customer owner = customerService.getOne(petDTO.getOwnerId());
+        System.out.println("control" + owner.getId());
         newPet.setOwner(owner);
         newPet.setBirthDate(petDTO.getBirthDate());
         newPet.setNotes(petDTO.getNotes());

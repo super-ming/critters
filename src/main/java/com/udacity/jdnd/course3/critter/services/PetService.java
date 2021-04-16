@@ -31,8 +31,10 @@ public class PetService {
     }
 
     public Pet savePet(Pet pet, Customer owner) {
-        owner.addPet(pet);
-        customersRepository.saveAndFlush(owner);
-        return petsRepository.saveAndFlush(pet);
+        Pet savedPet = petsRepository.saveAndFlush(pet);
+        Customer ownerInDB = customersRepository.findById(owner.getId()).get();
+        ownerInDB.addPet(savedPet);
+        customersRepository.saveAndFlush(ownerInDB);
+        return savedPet;
     }
 }

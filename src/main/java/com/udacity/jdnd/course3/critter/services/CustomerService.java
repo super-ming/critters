@@ -43,6 +43,7 @@ public class CustomerService {
     public void savePet(Long id, Pet pet){
         Customer owner = customersRepository.findById(id).get();
         pet.setOwner(owner);
-        owner.getPets().add(pet);
+        owner.addPet(pet);
+        customersRepository.saveAndFlush(owner);
     }
 }

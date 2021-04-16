@@ -62,6 +62,6 @@ public class Customer implements Serializable {
     }
 
     public void addPet(Pet pet){
-        pets.add(pet);
+        this.pets.add(pet);
     }
 }
